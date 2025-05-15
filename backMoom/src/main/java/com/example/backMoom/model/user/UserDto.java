@@ -1,0 +1,23 @@
+package com.example.backMoom.model.user;
+
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Document
+@Builder
+public class UserDto {
+    private String id;
+    private String name;
+    private String surname;
+    private String email;
+    private LocalDate birthdate;
+    private LocalDate lastPeriod;
+    private int lastCycleLength;
+    private int menstruationDuration;
+}

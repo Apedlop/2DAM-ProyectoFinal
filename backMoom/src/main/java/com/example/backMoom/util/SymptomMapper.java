@@ -1,0 +1,44 @@
+package com.example.backMoom.util;
+
+import com.example.backMoom.model.symptom.SymptomDto;
+import com.example.backMoom.model.symptom.SymptomVO;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class SymptomMapper {
+
+    public static SymptomVO symptomDtoToSymptomVO(SymptomDto dto) {
+        return SymptomVO.builder()
+                .id(dto.getId())
+                .userId(dto.getUserId())
+                .date(dto.getDate())
+                .typePain(dto.getTypePain())
+                .typeEmotion(dto.getTypeEmotion())
+                .notes(dto.getNotes())
+                .build();
+    }
+
+    public static SymptomDto symptomVOToSymptomDto(SymptomVO vo) {
+        return SymptomDto.builder()
+                .id(vo.getId())
+                .userId(vo.getUserId())
+                .date(vo.getDate())
+                .typePain(vo.getTypePain())
+                .typeEmotion(vo.getTypeEmotion())
+                .notes(vo.getNotes())
+                .build();
+    }
+
+    public static List<SymptomVO> symptomDtoListToSymptomVO(List<SymptomDto> dtoList) {
+        return dtoList.stream()
+                .map(SymptomMapper::symptomDtoToSymptomVO)
+                .collect(Collectors.toList());
+    }
+
+    public static List<SymptomDto> symptomVOListToSymptomDto(List<SymptomVO> voList) {
+        return voList.stream()
+                .map(SymptomMapper::symptomVOToSymptomDto)
+                .collect(Collectors.toList());
+    }
+}

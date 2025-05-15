@@ -1,0 +1,12 @@
+server:
+  port: 8090
+spring:
+  application:
+  name: moomService
+main:
+  allow-bean-definition-overriding: true
+data:
+  mongodb:
+    database: moomservice_db
+    host: mongo_DB # Usa el nombre del contenedor en Docker en lugar de la IP
+    port: 27017
