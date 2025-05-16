@@ -35,7 +35,10 @@ public class UserServiceImpl implements UserService {
         if (userOptional.isPresent()) {
             UserVO userVO = userOptional.get();
             userVO.setName(userDto.getName());
+            userVO.setSurname(userDto.getSurname());
             userVO.setEmail(userDto.getEmail());
+            userVO.setPassword(userDto.getPassword());
+            userVO.setBirthdate(userDto.getBirthdate());
             userVO.setLastPeriod(userDto.getLastPeriod());
             userVO.setLastCycleLength(userDto.getLastCycleLength());
             userVO.setMenstruationDuration(userDto.getMenstruationDuration());

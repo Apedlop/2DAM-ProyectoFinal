@@ -15,6 +15,7 @@ public class PhaseVO {
     @Id
     private String id;
     private String idUser;
+    private String color;
     private PhaseCycle phaseCycle;
     private LocalDate startDay;
     private LocalDate endDay;

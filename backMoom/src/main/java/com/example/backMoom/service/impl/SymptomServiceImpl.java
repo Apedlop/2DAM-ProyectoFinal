@@ -34,6 +34,7 @@ public class SymptomServiceImpl implements SymptomService {
         if (symptomOptional.isPresent()) {
             SymptomVO symptomVO = symptomOptional.get();
             symptomVO.setDate(symptomDto.getDate());
+            symptomVO.setTypePeriod(symptomDto.getTypePeriod());
             symptomVO.setTypePain(symptomDto.getTypePain());
             symptomVO.setTypeEmotion(symptomDto.getTypeEmotion());
             symptomVO.setNotes(symptomDto.getNotes());

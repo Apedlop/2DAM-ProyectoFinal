@@ -34,6 +34,7 @@ public class PhaseServiceImpl implements PhaseService {
 
         if (phaseOptiona.isPresent()) {
             PhaseVO phaseVO = phaseOptiona.get();
+            phaseVO.setColor(phaseVO.getColor());
             phaseVO.setPhaseCycle(phaseDto.getPhaseCycle());
             phaseVO.setStartDay(phaseDto.getStartDay());
             phaseVO.setEndDay(phaseDto.getEndDay());

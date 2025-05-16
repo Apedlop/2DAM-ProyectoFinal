@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class PhaseDto {
     private String id;
     private String idUser;
+    private String color;
     private PhaseCycle phaseCycle;
     private LocalDate startDay;
     private LocalDate endDay;

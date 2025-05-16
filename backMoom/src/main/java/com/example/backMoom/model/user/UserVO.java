@@ -16,6 +16,7 @@ public class UserVO {
     private String name;
     private String surname;
     private String email;
+    private String password;
     private LocalDate birthdate;
     private LocalDate lastPeriod;
     private int lastCycleLength;
