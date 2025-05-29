@@ -23,4 +23,5 @@ public interface CycleService {
     Optional<Integer> calculateAverageCycleLength(String userId);
     boolean existsCycleOnDate(String userId, LocalDate date); // Para que no hayan ciclos duplicados
     List<CycleDto> getCyclesBetweenDates(String UserId, LocalDate from, LocalDate to); // Obtener ciclos dentro de un rango
+    int calculatePeriodLength(String userId, String cycleId);
 }

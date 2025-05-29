@@ -16,4 +16,7 @@ public interface PhaseService {
     List<PhaseDto> getAllPhase();
     List<PhaseDto> getPhaseByDateRange(LocalDate start, LocalDate end);
     List<PhaseDto> getPhaseByCycle(String phaseCycle);
+    List<PhaseDto> generatePhases(LocalDate startDate, int cycleLength, int menstruationLength, String idUser);
+    List<PhaseDto> generateAndSavePhases(LocalDate startDate, int cycleLength, int menstruationLength, String idUser);
+    List<PhaseDto> generatePhasesFromPrediction(String userId);
 }

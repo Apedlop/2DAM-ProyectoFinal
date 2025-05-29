@@ -14,7 +14,8 @@ public class PredictionMapper {
                 .idUser(dto.getIdUser())
                 .nextPeriodDate(dto.getNextPeriodDate())
                 .nextOvulationDate(dto.getNextOvulationDate())
-                .daysUntilPeriod(dto.getDaysUntilPeriod())
+                .cycleLength(dto.getCycleLength())
+                .menstruationDuration(dto.getMenstruationDuration())
                 .build();
     }
 
@@ -24,7 +25,8 @@ public class PredictionMapper {
                 .idUser(vo.getIdUser())
                 .nextPeriodDate(vo.getNextPeriodDate())
                 .nextOvulationDate(vo.getNextOvulationDate())
-                .daysUntilPeriod(vo.getDaysUntilPeriod())
+                .cycleLength(vo.getCycleLength())
+                .menstruationDuration(vo.getMenstruationDuration())
                 .build();
     }
 

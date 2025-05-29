@@ -60,4 +60,9 @@ public class PhaseController implements PhaseAPI {
     public List<PhaseDto> getPhaseByCycle(@RequestParam String phaseCycle) {
         return phaseService.getPhaseByCycle(phaseCycle);
     }
+
+    @GetMapping("/")
+    public List<PhaseDto> getPhases(@RequestParam String idUser, @RequestParam LocalDate startDate, @RequestParam int cycleLength, @RequestParam int menstruationLength) {
+        return phaseService.generatePhases(startDate, cycleLength, menstruationLength, idUser);
+    }
 }

@@ -19,6 +19,6 @@ public class UserVO {
     private String password;
     private LocalDate birthdate;
     private LocalDate lastPeriod;
-    private int lastCycleLength;
-    private int menstruationDuration;
+    private Integer lastCycleLength;
+    private Integer menstruationDuration;
 }

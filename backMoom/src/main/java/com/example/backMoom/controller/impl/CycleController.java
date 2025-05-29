@@ -88,4 +88,21 @@ public class CycleController implements CycleAPI {
                                                 @RequestParam("to") LocalDate to) {
         return cycleService.getCyclesBetweenDates(userId, from, to);
     }
+
+    @GetMapping("/{id}/menstruationDuration")
+    public ResponseEntity<Integer> getMenstruationDuration(@PathVariable String id) {
+        Optional<CycleDto> cycleOpt = cycleService.getCycleById(id);
+        if (cycleOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        CycleDto cycle = cycleOpt.get();
+        int duracion = cycleService.calculatePeriodLength(
+                cycle.getUserId(),
+                cycle.getId()
+        );
+
+        return ResponseEntity.ok(duracion);
+    }
+
 }

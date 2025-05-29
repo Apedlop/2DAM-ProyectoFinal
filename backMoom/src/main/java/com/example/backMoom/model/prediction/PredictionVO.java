@@ -16,5 +16,7 @@ public class PredictionVO {
     private String idUser;
     private LocalDate nextPeriodDate;
     private LocalDate nextOvulationDate;
-    private int daysUntilPeriod;
+    private Integer cycleLength;
+    private Integer menstruationDuration;
+    private Integer daysUntilPeriod;
 }

@@ -62,11 +62,10 @@ public class PredictionController implements PredictionAPI {
     }
 
     @Override
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<PredictionDto> calculateNextCyclePrediction(@PathVariable String userId) {
-        Optional<PredictionDto> prediction = predictionService.calculateNextCyclePrediction(userId);
+    @GetMapping("/predict/{userId}")
+    public ResponseEntity<PredictionDto> predictNextCycle(@PathVariable String userId) {
+        Optional<PredictionDto> prediction = predictionService.predictNextCycle(userId);
         return prediction.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
 }

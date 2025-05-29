@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class SymptomDto {
     private String id;
     private String userId;
+    private String cycleId;
     private LocalDate date;
     private ArrayList<TypePeriod> typePeriod;
     private ArrayList<TypePain> typePain;

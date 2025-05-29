@@ -15,6 +15,6 @@ public interface SymptomAPI {
     Optional<SymptomDto> getSymptomById(String id);
     List<SymptomDto> getAllSymptoms();
     List<SymptomDto> getSymptomsByUserId(String userId);
-    List<SymptomDto> getSymptomsByUserIdAndDate(String userId, LocalDate date);
+    Optional<SymptomDto> getSymptomsByUserIdAndDate(String userId, LocalDate date);
     List<SymptomDto> getSymptomsBetweenDates(String userId, LocalDate from, LocalDate to);
 }

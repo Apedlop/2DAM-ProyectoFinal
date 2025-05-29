@@ -57,7 +57,7 @@ public class SymptomController implements SymptomAPI {
 
     @Override
     @GetMapping("/user/{userId}/date")
-    public List<SymptomDto> getSymptomsByUserIdAndDate(@PathVariable String userId, @RequestParam LocalDate date) {
+    public Optional<SymptomDto> getSymptomsByUserIdAndDate(@PathVariable String userId, @RequestParam LocalDate date) {
         return symptomService.getSymptomsByUserIdAndDate(userId, date);
     }
 

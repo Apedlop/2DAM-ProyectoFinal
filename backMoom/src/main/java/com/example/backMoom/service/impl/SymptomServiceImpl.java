@@ -22,74 +22,78 @@ public class SymptomServiceImpl implements SymptomService {
 
     @Override
     public SymptomDto addSymptom(SymptomDto symptomDto) {
+        Optional<SymptomVO> existing = symptomRepository.findByUserIdAndDate(
+                symptomDto.getUserId(), symptomDto.getDate()
+        );
+
+        if (existing.isPresent()) {
+            throw new IllegalArgumentException("Ya existe un registro para esa fecha y usuario.");
+        }
+
         SymptomVO symptomVO = SymptomMapper.symptomDtoToSymptomVO(symptomDto);
-        SymptomVO createSymptom = symptomRepository.save(symptomVO);
-        return SymptomMapper.symptomVOToSymptomDto(createSymptom);
+        SymptomVO createdSymptom = symptomRepository.save(symptomVO);
+        return SymptomMapper.symptomVOToSymptomDto(createdSymptom);
     }
 
     @Override
     public SymptomDto updateSymptom(SymptomDto symptomDto) {
-        Optional<SymptomVO> symptomOptional = symptomRepository.findById(symptomDto.getId());
-
-        if (symptomOptional.isPresent()) {
-            SymptomVO symptomVO = symptomOptional.get();
-            symptomVO.setDate(symptomDto.getDate());
-            symptomVO.setTypePeriod(symptomDto.getTypePeriod());
-            symptomVO.setTypePain(symptomDto.getTypePain());
-            symptomVO.setTypeEmotion(symptomDto.getTypeEmotion());
-            symptomVO.setNotes(symptomDto.getNotes());
-            SymptomVO updateSymptom = symptomRepository.save(symptomVO);
-            return SymptomMapper.symptomVOToSymptomDto(updateSymptom);
-        } else {
-            return null;
-        }
+        return symptomRepository.findById(symptomDto.getId())
+                .map(symptomVO -> {
+                    symptomVO.setDate(symptomDto.getDate());
+                    symptomVO.setTypePeriod(symptomDto.getTypePeriod());
+                    symptomVO.setTypePain(symptomDto.getTypePain());
+                    symptomVO.setTypeEmotion(symptomDto.getTypeEmotion());
+                    symptomVO.setNotes(symptomDto.getNotes());
+                    SymptomVO updatedSymptom = symptomRepository.save(symptomVO);
+                    return SymptomMapper.symptomVOToSymptomDto(updatedSymptom);
+                })
+                .orElse(null);
     }
 
     @Override
-    public ResponseEntity deleteSymptom(String id) {
-        System.out.println("ID recibido: " + id);
-
+    public ResponseEntity<String> deleteSymptom(String id) {
         try {
-            Optional<SymptomVO> symptomOptional = symptomRepository.findById(id);
-            if (symptomOptional.isPresent()) {
+            if (symptomRepository.existsById(id)) {
                 symptomRepository.deleteById(id);
                 return ResponseEntity.ok("Síntomas eliminados exitosamente");
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Síntomas no encontrados con el ID: " + id);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Síntomas no encontrados con el ID: " + id);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar los síntomas");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al eliminar los síntomas");
         }
     }
 
     @Override
     public Optional<SymptomDto> getSymptomById(String id) {
-        Optional<SymptomVO> symptomOptional = symptomRepository.findById(id);
-        return symptomOptional.map(SymptomMapper::symptomVOToSymptomDto);
+        return symptomRepository.findById(id)
+                .map(SymptomMapper::symptomVOToSymptomDto);
     }
 
     @Override
     public List<SymptomDto> getAllSymptoms() {
-        List<SymptomVO> symptomVO = symptomRepository.findAll();
-        return SymptomMapper.symptomVOListToSymptomDto(symptomVO);
+        List<SymptomVO> symptomVOList = symptomRepository.findAll();
+        return SymptomMapper.symptomVOListToSymptomDto(symptomVOList);
     }
 
     @Override
     public List<SymptomDto> getSymptomsByUserId(String userId) {
-        List<SymptomVO> symptomVO = symptomRepository.findByUserId(userId);
-        return SymptomMapper.symptomVOListToSymptomDto(symptomVO);
+        List<SymptomVO> symptomVOList = symptomRepository.findByUserId(userId);
+        return SymptomMapper.symptomVOListToSymptomDto(symptomVOList);
     }
 
     @Override
-    public List<SymptomDto> getSymptomsByUserIdAndDate(String userId, LocalDate date) {
-        List<SymptomVO> symptomVO = symptomRepository.findByUserIdAndDate(userId, date);
-        return SymptomMapper.symptomVOListToSymptomDto(symptomVO);
+    public Optional<SymptomDto> getSymptomsByUserIdAndDate(String userId, LocalDate date) {
+        return symptomRepository.findByUserIdAndDate(userId, date)
+                .map(SymptomMapper::symptomVOToSymptomDto);
     }
 
     @Override
     public List<SymptomDto> getSymptomsBetweenDates(String userId, LocalDate from, LocalDate to) {
-        List<SymptomVO> symptomVO = symptomRepository.findByUserIdAndDateBetween(userId, from, to);
-        return SymptomMapper.symptomVOListToSymptomDto(symptomVO);
+        List<SymptomVO> symptomVOList = symptomRepository.findByUserIdAndDateBetween(userId, from, to);
+        return SymptomMapper.symptomVOListToSymptomDto(symptomVOList);
     }
 }

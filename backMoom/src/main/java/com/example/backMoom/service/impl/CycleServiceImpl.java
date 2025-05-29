@@ -2,7 +2,10 @@ package com.example.backMoom.service.impl;
 
 import com.example.backMoom.model.cycle.CycleDto;
 import com.example.backMoom.model.cycle.CycleVO;
+import com.example.backMoom.model.enums.TypePeriod;
+import com.example.backMoom.model.symptom.SymptomVO;
 import com.example.backMoom.repository.CycleRepository;
+import com.example.backMoom.repository.SymptomRepository;
 import com.example.backMoom.service.CycleService;
 import com.example.backMoom.util.CycleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class CycleServiceImpl implements CycleService {
     @Autowired
     private CycleRepository cycleRepository;
 
+    @Autowired
+    private SymptomRepository symptomRepository;
+
     @Override
     public CycleDto addCycle(CycleDto cycleDto) {
         CycleVO cycleVO = CycleMapper.cycleDtoToCycleVO(cycleDto);
@@ -37,6 +43,7 @@ public class CycleServiceImpl implements CycleService {
             CycleVO cycleVO = cycleOptional.get();
             cycleVO.setStartDate(cycleDto.getStartDate());
             cycleVO.setCycleLength(cycleDto.getCycleLength());
+            cycleVO.setMenstruationDuration(cycleDto.getMenstruationDuration());
             CycleVO updateCycle = cycleRepository.save(cycleVO);
             return CycleMapper.cycleVOToCycleDto(updateCycle);
         } else {
@@ -52,7 +59,8 @@ public class CycleServiceImpl implements CycleService {
             Optional<CycleVO> cycleOptional = cycleRepository.findById(id);
             if (cycleOptional.isPresent()) {
                 cycleRepository.deleteById(id);
-                return ResponseEntity.ok("Ciclo eliminado exitosamente");
+                symptomRepository.deleteByCycleId(id);
+                return ResponseEntity.ok("Ciclo y síntomas eliminados exitosamente");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ciclo no encontrado con el ID: " + id);
             }
@@ -161,4 +169,22 @@ public class CycleServiceImpl implements CycleService {
                 .map(CycleMapper::cycleVOToCycleDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public int calculatePeriodLength(String userId, String cycleId) {
+        List<SymptomVO> sintomas = symptomRepository.findByUserIdAndCycleIdOrderByDateAsc(userId, cycleId);
+
+        if (sintomas.isEmpty()) {
+            return 0;  // No hay síntomas, duración 0
+        }
+
+        LocalDate firstDate = sintomas.get(0).getDate();
+        LocalDate lastDate = sintomas.get(sintomas.size() - 1).getDate();
+
+        // Calcular diferencia en días (inclusive)
+        int duracion = (int) java.time.temporal.ChronoUnit.DAYS.between(firstDate, lastDate) + 1;
+
+        return duracion;
+    }
+
 }

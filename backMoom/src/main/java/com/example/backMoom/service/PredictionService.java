@@ -8,15 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PredictionService {
-    // Métodos CRUD
     PredictionDto addPrediction(PredictionDto predictionDto);
     PredictionDto updatePrediction(PredictionDto predictionDto);
-    ResponseEntity deletePrediction(String id);
+    ResponseEntity<?> deletePrediction(String id);
     Optional<PredictionDto> getPredictionById(String id);
     List<PredictionDto> getAllPrediction();
     Optional<PredictionDto> getPredictionByDate(LocalDate date);
     List<PredictionDto> getPredictionBetweenDate(LocalDate from, LocalDate to);
-
-    // Métodos adicionales para la funcionalidad de la app
-    Optional<PredictionDto> calculateNextCyclePrediction(String userId);
+    Optional<PredictionDto> predictNextCycle(String userId);
 }

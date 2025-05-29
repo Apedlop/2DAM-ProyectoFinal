@@ -18,6 +18,7 @@ public class SymptomVO {
     @Id
     private String id;
     private String userId;
+    private String cycleId;
     private LocalDate date;
     private ArrayList<TypePeriod> typePeriod;
     private ArrayList<TypePain> typePain;
